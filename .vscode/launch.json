@@ -1,0 +1,6 @@
+{
+    "name": "Python: gRPC Server",
+    "type": "python",
+    "request": "launch",
+    "program": "${workspaceFolder}/backend/server.py"
+}

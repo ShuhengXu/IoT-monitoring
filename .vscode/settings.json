@@ -1,0 +1,6 @@
+{
+    "editor.formatOnSave": true,
+    "python.linting.enabled": true,
+    "python.linting.pylintEnabled": true,
+    "grpc.protocPath": "/usr/local/bin/protoc"  // 确保 protoc 路径正确
+}
