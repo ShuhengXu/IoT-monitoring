@@ -33,8 +33,10 @@ const TemperatureChart: React.FC = () => {
   useEffect(() => {
     const fetchTemperature = async () => {
       try {
-        const response = await fetch('/api/temperature/current');
+        //const response = await fetch('/api/temperature/current');
+        const response = await fetch("http://localhost:5001/api/temperature/current");
         const data: TemperatureData = await response.json();
+        console.log('Fetched temperature data:', data);
         setTemperatures(prev => [...prev.slice(-10), data]); // 保留最近10条数据
       } catch (error) {
         console.error('Failed to fetch temperature:', error);

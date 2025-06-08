@@ -1,0 +1,12 @@
+FROM python:3.10-slim
+
+WORKDIR /app/backend
+
+COPY TemperatureService ./TemperatureService
+RUN pip install --no-cache-dir -r TemperatureService/requirements.txt
+
+ENV PYTHONPATH=/app
+
+EXPOSE 50051
+CMD ["python", "-m", "TemperatureService.server"]
+

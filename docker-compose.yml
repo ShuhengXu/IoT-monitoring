@@ -1,0 +1,41 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres:13
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: temperature_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  temperatureservice:
+    build:
+      context: backend/
+      dockerfile: Dockerfile.tempsvc
+    ports:
+      - "50051:50051"
+    networks:
+      - app-network
+
+  restapi:
+    build:
+      context: backend/
+      dockerfile: Dockerfile.restapi
+    ports:
+      - "5001:5001"
+    networks:
+      - app-network
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - restapi
+    networks:
+      - app-network
+networks:
+  app-network:
+volumes:
+  postgres_data:
