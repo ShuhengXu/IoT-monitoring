@@ -1,0 +1,13 @@
+FROM python:3.10-slim
+
+WORKDIR /app/backend
+
+# 既能 copy RestAPI，也能 copy TemperatureService
+COPY API    ./API
+COPY TemperatureService ./TemperatureService
+
+RUN pip install --no-cache-dir -r API/requirements.txt
+
+ENV PYTHONPATH=/app
+
+CMD ["python", "-m", "API.api"]

@@ -35,10 +35,10 @@ services:
     networks:
       - app-network
 
-  restapi:
+  api:
     build:
       context: backend/
-      dockerfile: Dockerfile.restapi
+      dockerfile: Dockerfile.api
     ports:
       - "5001:5001"
     networks:
@@ -49,7 +49,7 @@ services:
     ports:
       - "3000:80"
     depends_on:
-      - restapi
+      - api
     networks:
       - app-network
 networks:
