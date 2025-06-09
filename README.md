@@ -32,11 +32,13 @@ npm install
 npm start
 The frontend web page should open automatically in your browser.
 
-### 2. Docker and Kubernetes deployment (skip if debugging locally)
+### 2. Docker deployment  
+*(Step 1 debugging can be skipped if only the deployment is necessary.)*
 Build and run the services with Docker Compose:
 docker-compose up --build
 
-### 3. Start Minikube cluster (optional for Kubernetes deployment)
+### 3. Start Minikube cluster and Kubernetes 
+*(optional for Kubernetes deployment)*
 
 minikube start --cpus=4 --memory=7000 --driver=docker
 
