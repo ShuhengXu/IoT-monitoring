@@ -11,7 +11,6 @@ import {
   Legend,
 } from 'chart.js';
 
-// 注册 ChartJS 组件
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -33,9 +32,9 @@ const TemperatureChart: React.FC = () => {
   useEffect(() => {
     const fetchTemperature = async () => {
       try {
-        const response = await fetch('/api/temperature/current');
+        const response = await fetch("http://localhost:5001/api/temperature/current");
         const data: TemperatureData = await response.json();
-        setTemperatures(prev => [...prev.slice(-10), data]); // 保留最近10条数据
+        setTemperatures(prev => [...prev.slice(-10), data]);
       } catch (error) {
         console.error('Failed to fetch temperature:', error);
       }
@@ -46,12 +45,14 @@ const TemperatureChart: React.FC = () => {
   }, []);
 
   const chartData = {
-    labels: temperatures.map(t => t.timestamp),
+    labels: temperatures.map(t => new Date(t.timestamp).toLocaleTimeString()),
     datasets: [{
-      label: 'Temperature (°C)',
+      label: '🌡️ Temperature (°C)',
       data: temperatures.map(t => t.value),
-      borderColor: 'rgb(75, 192, 192)',
-      tension: 0.1,
+      borderColor: '#007bff',
+      backgroundColor: 'rgba(0, 123, 255, 0.1)',
+      tension: 0.3,
+      fill: true,
     }],
   };
 
@@ -61,14 +62,50 @@ const TemperatureChart: React.FC = () => {
       y: {
         min: 20,
         max: 35,
+        ticks: { stepSize: 1 },
+        title: {
+          display: true,
+          text: 'Temperature (°C)',
+          color: '#333',
+          font: { size: 14 },
+        }
+      },
+      x: {
+        ticks: {
+          maxTicksLimit: 10,
+        },
+        title: {
+          display: true,
+          text: 'Time',
+          color: '#333',
+          font: { size: 14 },
+        }
+      }
+    },
+    plugins: {
+      legend: {
+        display: true,
+        position: 'top' as const,
       },
     },
   };
 
   return (
-    <div style={{ width: '80%', margin: '0 auto' }}>
+    <section
+      style={{
+        maxWidth: '800px',
+        margin: '2rem auto',
+        padding: '1.5rem',
+        backgroundColor: '#f7f9fc',
+        borderRadius: '12px',
+        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)'
+      }}
+    >
+      <h2 style={{ fontSize: '1.5rem', marginBottom: '1.5rem', color: '#333' }}>
+        📈 Real-Time Temperature Chart
+      </h2>
       <Line data={chartData} options={chartOptions} />
-    </div>
+    </section>
   );
 };
 

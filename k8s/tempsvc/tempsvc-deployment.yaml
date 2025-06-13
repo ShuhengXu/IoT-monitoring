@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tempsvc
+  namespace: iot
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tempsvc
+  template:
+    metadata:
+      labels:
+        app: tempsvc
+    spec:
+      containers:
+        - name: tempsvc
+          image: iot-monitoring-temperatureservice:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 50051

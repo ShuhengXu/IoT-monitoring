@@ -1,0 +1,58 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: postgres 
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: temperature_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+
+  pgadmin:
+    image: dpage/pgadmin4
+    ports:
+      - "8080:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: shxushuheng@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    depends_on:
+      - postgres
+    networks:
+      - app-network
+
+
+  temperatureservice:
+    build:
+      context: backend/
+      dockerfile: Dockerfile.tempsvc
+    ports:
+      - "50051:50051"
+    networks:
+      - app-network
+
+  api:
+    build:
+      context: backend/
+      dockerfile: Dockerfile.api
+    ports:
+      - "5001:5001"
+    networks:
+      - app-network
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - api
+    networks:
+      - app-network
+networks:
+  app-network:
+volumes:
+  postgres_data:
